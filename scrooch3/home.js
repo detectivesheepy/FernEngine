@@ -17,9 +17,10 @@ function addHomeIcon() {
   link.style.transition = 'background 0.15s ease';
 
   const icon = document.createElement('img');
-  icon.src = 'https://cattymod.app/assets/home.png';
+  icon.src = 'https://lorenzo.nya.je/FernEngine/static/other/FernEngine-10-18-2026.png';
+  
   icon.className = 'home-favicon';
-  icon.style.filter = 'brightness(0) invert(1)'; // pure white
+  // icon.style.filter = 'brightness(0) invert(1)'; // pure white
   icon.style.maxHeight = '100%';
   icon.style.maxWidth = '24px';
   icon.style.objectFit = 'contain';
