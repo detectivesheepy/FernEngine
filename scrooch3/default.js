@@ -1,5 +1,5 @@
 (async () => {
-    const DEFAULT_SB3_URL = "https://cattymod.app/assets/default.sb3";
+    const DEFAULT_SB3_URL = "https://files.catbox.moe/bkrmyv.sb3";
 
     // Wait for VM helper
     const waitForVM = () => new Promise(resolve => {
@@ -23,9 +23,9 @@
             const arrayBuffer = await response.arrayBuffer();
             await window.vm.loadProject(arrayBuffer);
 
-            console.log("✅ CattyMod default project loaded!");
+            console.log("✅ FernEngine default project loaded!");
         } catch (err) {
-            console.error("❌ Error loading CattyMod project:", err);
+            console.error("❌ Error loading FernEngine project:", err);
         }
     }
 
