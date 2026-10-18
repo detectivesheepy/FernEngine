@@ -1,6 +1,6 @@
 (function () {
   // Set your main color here
-  const navColor = 'green'; // Background
+  const navColor = '#008000'; // Background
   
   // Darken a hex color by a percentage (0-1)
   function darkenColor(hex, amount = 0.25) {
@@ -14,7 +14,7 @@
   }
 
   // Automatically generate shades
-  const smallBtnColor = darkenColor(navColor, 0.25);   // for small buttons
+  const smallBtnColor = navColor;                      // for small buttons
   const outlineColor = darkenColor(navColor, 0.4);     // for main button outlines
 
   function applyColors() {
@@ -56,21 +56,88 @@
         e.style.boxShadow = 'none';
         e.style.border = 'none';
       });
-  }
 
-  // Inject CSS to force tooltip + arrow color
-  if (!document.getElementById('tooltip-navcolor-style')) {
-    const styleEl = document.createElement('style');
-    styleEl.id = 'tooltip-navcolor-style';
-    styleEl.innerHTML = `
-      .action-menu_tooltip_3Bkh5 {
+    let styleEl = document.getElementById('tooltip-navcolor-style');
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = 'tooltip-navcolor-style';
+    }
+    styleEl.textContent = `
+      .action-menu_button_1qbot,
+      .action-menu_button_1qbot:hover,
+      .action-menu_main-button_3ccfy,
+      .action-menu_main-button_3ccfy:hover,
+      .action-menu_more-button_1fMGZ,
+      .action-menu_more-button_1fMGZ:hover,
+      .action-menu_button_1qbot.action-menu_coming-soon_2URvV:hover {
+        background: ${navColor} !important;
+      }
+      .action-menu_main-button_3ccfy,
+      .action-menu_main-button_3ccfy:hover {
+        box-shadow: 0 0 0 4px ${outlineColor} !important;
+        outline-color: ${outlineColor} !important;
+      }
+      .action-menu_tooltip_3Bkh5,
+      .action-menu_coming-soon-tooltip_3jthM {
         background-color: ${navColor} !important;
         color: white !important;
-        box-shadow: none !important;
       }
-      .action-menu_tooltip_3Bkh5::after {
+      .action-menu_tooltip_3Bkh5::after,
+      .action-menu_coming-soon-tooltip_3jthM::after {
         background-color: ${navColor} !important;
         border-color: ${navColor} !important;
+      }
+      .gui_tab_27Unf.gui_is-selected_sHAiu,
+      .library-item_library-item_1DcMO:hover,
+      .sprite-selector-item_sprite-selector-item_kQm-i:hover,
+      .sprite-selector-item_sprite-selector-item_kQm-i.sprite-selector-item_is-selected_24tQj,
+      .stage-selector_stage-selector_3oWOr:hover,
+      .stage-selector_stage-selector_3oWOr.stage-selector_is-selected_2x2r_ {
+        border-color: ${navColor} !important;
+      }
+      .icon-button_container_278u5,
+      .gui_tab_27Unf.gui_is-selected_sHAiu,
+      .selector_new-buttons_2qHDd {
+        color: ${navColor} !important;
+      }
+      .sprite-selector-item_sprite-selector-item_kQm-i.sprite-selector-item_is-selected_24tQj {
+        box-shadow: 0 0 0 4px ${outlineColor} !important;
+      }
+      .sprite-selector-item_sprite-selector-item_kQm-i.sprite-selector-item_is-selected_24tQj .sprite-selector-item_sprite-info_-I0i_,
+      .stage-selector_stage-selector_3oWOr.stage-selector_is-selected_2x2r_ .stage-selector_header_2GVr1,
+      .action-menu_coming-soon_2URvV:hover {
+        background-color: ${navColor} !important;
+      }
+      .checkbox_checkbox_2QbUl:checked,
+      .checkbox_checkbox_2QbUl:hover,
+      .checkbox_checkbox_2QbUl:focus,
+      .checkbox_checkbox_2QbUl:active,
+      .input_input-form_l9eYg:focus,
+      .input_input-form_l9eYg:hover,
+      .paint-editor_bitmap-button_keW7B,
+      .paint-editor_bitmap-button_keW7B:hover {
+        border-color: ${navColor} !important;
+        accent-color: ${navColor} !important;
+      }
+      .paint-editor_bitmap-button_keW7B,
+      .paint-editor_bitmap-button_keW7B:hover {
+        background-color: ${navColor} !important;
+      }
+      .__react_component_tooltip {
+        background-color: ${navColor} !important;
+        color: white !important;
+      }
+      .__react_component_tooltip.place-top::after {
+        border-top-color: ${navColor} !important;
+      }
+      .__react_component_tooltip.place-bottom::after {
+        border-bottom-color: ${navColor} !important;
+      }
+      .__react_component_tooltip.place-left::after {
+        border-left-color: ${navColor} !important;
+      }
+      .__react_component_tooltip.place-right::after {
+        border-right-color: ${navColor} !important;
       }
     `;
     document.head.appendChild(styleEl);

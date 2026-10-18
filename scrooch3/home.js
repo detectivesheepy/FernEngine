@@ -4,7 +4,7 @@ function addHomeIcon() {
   if (!menu || menu.querySelector('.home-favicon')) return;
 
   const link = document.createElement('a');
-  link.href = 'https://cattymod.app';
+  link.href = 'https://lorenzo.nya.je/FernEngine/';
   link.target = '_self';
   link.style.display = 'flex';
   link.style.alignItems = 'center';
@@ -17,7 +17,7 @@ function addHomeIcon() {
   link.style.transition = 'background 0.15s ease';
 
   const icon = document.createElement('img');
-  icon.src = 'https://lorenzo.nya.je/FernEngine/static/other/FernEngine-10-18-2026.png';
+  icon.src = 'https://lorenzo.nya.je/FernEngine/static/other/F-10-18-2026.png';
   
   icon.className = 'home-favicon';
   // icon.style.filter = 'brightness(0) invert(1)'; // pure white

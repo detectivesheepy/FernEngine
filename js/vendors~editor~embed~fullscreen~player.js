@@ -182795,6 +182795,14 @@ class SecurityManager {
    * @returns {Promise<'worker'|'iframe'|'unsandboxed'>}
    */
   getSandboxMode(extensionURL) {
+    if ([
+      'https://cattymod.app/extensions/python.js',
+      'https://extensions.mistium.com/featured/Iframe+.js',
+      'https://raw.githubusercontent.com/CST1229/turbowarp-extensions/3d/extensions/CST1229/3d.js',
+      'https://extensions.penguinmod.com/extensions/bruhbeast-pixel/CockatielLocation.js'
+    ].includes(extensionURL)) {
+      return Promise.resolve('unsandboxed');
+    }
     // Default to worker for Scratch compatibility
     return Promise.resolve('worker');
   }

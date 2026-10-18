@@ -20686,7 +20686,7 @@ class ExtensionLibrary extends react__WEBPACK_IMPORTED_MODULE_2___default.a.Pure
       url = prompt(this.props.intl.formatMessage(messages.extensionUrl));
     }
     if (url && !item.disabled) {
-      if (this.props.vm.extensionManager.isExtensionLoaded(url)) {
+      if (this.props.vm.extensionManager.isExtensionLoaded(id || url)) {
         this.props.onCategorySelected(id);
       } else {
         const parsedURL = isCustomURL ? parseExtensionURL(url) : url;
@@ -31806,27 +31806,21 @@ __webpack_require__.r(__webpack_exports__);
   featured: true,
   incompatibleWithScratch: true
 },
-/*{
-    name: (
-        <FormattedMessage
-            defaultMessage="Text"
-            description="Name of Text extension"
-            id="text.TextExtension.name"
-        />
-    ),
-    extensionId: 'text',
-    iconURL: textExtensionIcon,
-    insetIconURL: textExtensionIcon,
-    description: (
-        <FormattedMessage
-            defaultMessage="Use dynamic text for instructions, dialogue, and more!"
-            description="Description of Text extension"
-            id="text.textExtension.description"
-        />
-    ),
-    featured: true,
-    incompatibleWithScratch: true
-},*/
+{
+  name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
+    defaultMessage: "Modals",
+    id: "modals.ModalsExtension.name"
+  }),
+  extensionId: 'modals',
+  iconURL: _custom_custom_svg__WEBPACK_IMPORTED_MODULE_32___default.a,
+  insetIconURL: _custom_custom_svg__WEBPACK_IMPORTED_MODULE_32___default.a,
+  description: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
+    defaultMessage: "Create Scratch modals with this extension",
+    id: "modals.ModalsExtension.description"
+  }),
+  featured: true,
+  incompatibleWithScratch: true
+},
 {
   name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
     defaultMessage: "Prism",
@@ -32007,6 +32001,34 @@ __webpack_require__.r(__webpack_exports__);
     id: "gui.extension.gdxfor.connectingMessage"
   }),
   helpLink: 'https://scratch.mit.edu/vernier'
+}, {
+  name: 'Python',
+  extensionId: 'python',
+  extensionURL: 'https://cattymod.app/extensions/python.js',
+  iconURL: 'https://cattymod.app/extensions/python.svg',
+  description: 'Run Python code and integrate Python scripts directly into your projects.',
+  featured: true
+}, {
+  name: 'Iframes+',
+  extensionId: 'iframePlus',
+  extensionURL: 'https://extensions.mistium.com/featured/Iframe+.js',
+  iconURL: 'https://extensions.mistium.com/images/Iframe+.png',
+  description: 'Add iframes to your projects. Made by Mistium.',
+  featured: true
+}, {
+  name: 'CST 3D',
+  extensionId: 'cst12293d',
+  extensionURL: 'https://raw.githubusercontent.com/CST1229/turbowarp-extensions/3d/extensions/CST1229/3d.js',
+  iconURL: 'https://static.wikitide.net/pmodwiki/thumb/6/6a/3dextension.png/300px-3dextension.png',
+  description: 'Add 3D to your projects. Made by CST.',
+  featured: true
+}, {
+  name: 'Location',
+  extensionId: 'BPixelCockatiel',
+  extensionURL: 'https://extensions.penguinmod.com/extensions/bruhbeast-pixel/CockatielLocation.js',
+  iconURL: 'https://extensions.penguinmod.com/images/bruhbeast-pixel/CockatielLocation.svg',
+  description: "Fetch Users' IP Addresses and Location.",
+  featured: true
 }, {
   name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
     defaultMessage: "Custom Extension",
