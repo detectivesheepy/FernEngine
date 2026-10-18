@@ -182505,11 +182505,19 @@ const ArgumentType = __webpack_require__(/*! ./argument-type */ "./node_modules/
 const BlockType = __webpack_require__(/*! ./block-type */ "./node_modules/scratch-vm/src/extension-support/block-type.js");
 const TargetType = __webpack_require__(/*! ./target-type */ "./node_modules/scratch-vm/src/extension-support/target-type.js");
 const Cast = __webpack_require__(/*! ../util/cast */ "./node_modules/scratch-vm/src/util/cast.js");
+const translate = message => {
+  if (typeof message === 'string') return message;
+  if (message && typeof message.default === 'string') return message.default;
+  if (message && typeof message.defaultMessage === 'string') return message.defaultMessage;
+  return '';
+};
+translate.setup = () => {};
 const Scratch = {
   ArgumentType,
   BlockType,
   TargetType,
-  Cast
+  Cast,
+  translate
 };
 module.exports = Scratch;
 
@@ -182797,7 +182805,7 @@ class SecurityManager {
   getSandboxMode(extensionURL) {
     if ([
       'https://cattymod.app/extensions/python.js',
-      'https://extensions.mistium.com/featured/Iframe+.js',
+      'https://extensions.turbowarp.org/iframe.js',
       'https://raw.githubusercontent.com/CST1229/turbowarp-extensions/3d/extensions/CST1229/3d.js',
       'https://extensions.penguinmod.com/extensions/bruhbeast-pixel/CockatielLocation.js'
     ].includes(extensionURL)) {

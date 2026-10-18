@@ -82,6 +82,10 @@
         background-color: ${navColor} !important;
         color: white !important;
       }
+      .modal_full-screen_FA4cr .modal_header_1h7ps {
+        background: ${navColor} !important;
+        color: white !important;
+      }
       .action-menu_tooltip_3Bkh5::after,
       .action-menu_coming-soon-tooltip_3jthM::after {
         background-color: ${navColor} !important;

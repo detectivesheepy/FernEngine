@@ -20674,6 +20674,10 @@ class ExtensionLibrary extends react__WEBPACK_IMPORTED_MODULE_2___default.a.Pure
     lodash_bindall__WEBPACK_IMPORTED_MODULE_0___default()(this, ['handleItemSelect']);
   }
   handleItemSelect(item) {
+    if (item.externalURL) {
+      window.open(item.externalURL, '_blank', 'noopener,noreferrer');
+      return;
+    }
     // eslint-disable-next-line no-alert
     if (item.incompatibleWithScratch && !confirm(this.props.intl.formatMessage(messages.incompatible))) {
       return;
@@ -31632,6 +31636,53 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = ([{
+  name: 'PenguinMod Extra Extensions',
+  extensionId: 'penguinmodExtraExtensions',
+  externalURL: 'https://extensions.penguinmod.com/?editor=false',
+  iconURL: 'https://studio.penguinmod.com/static/assets/7a4510ab192e5a0bd0b1186db1396bce.svg',
+  description: 'Browse more extensions for PenguinMod.',
+  featured: true
+}, {
+  name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
+    defaultMessage: "Custom Extension",
+    id: "tw.customExtension.name"
+  }),
+  extensionId: '',
+  iconURL: _custom_custom_svg__WEBPACK_IMPORTED_MODULE_32___default.a,
+  description: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
+    defaultMessage: "Load custom extensions from URLs. For developers. Experimental.",
+    id: "tw.customExtension.description"
+  }),
+  featured: true
+}, {
+  name: 'Python',
+  extensionId: 'python',
+  extensionURL: 'https://cattymod.app/extensions/python.js',
+  iconURL: 'https://cattymod.app/extensions/python.svg',
+  description: 'Run Python code and integrate Python scripts directly into your projects.',
+  featured: true
+}, {
+  name: 'Iframe',
+  extensionId: 'iframe',
+  extensionURL: 'https://extensions.turbowarp.org/iframe.js',
+  iconURL: 'https://extensions.turbowarp.org/images/iframe.svg',
+  description: 'Display webpages or HTML over the stage.',
+  featured: true
+}, {
+  name: 'CST 3D',
+  extensionId: 'cst12293d',
+  extensionURL: 'https://raw.githubusercontent.com/CST1229/turbowarp-extensions/3d/extensions/CST1229/3d.js',
+  iconURL: 'https://static.wikitide.net/pmodwiki/thumb/6/6a/3dextension.png/300px-3dextension.png',
+  description: 'Add 3D to your projects. Made by CST.',
+  featured: true
+}, {
+  name: 'Location',
+  extensionId: 'BPixelCockatiel',
+  extensionURL: 'https://extensions.penguinmod.com/extensions/bruhbeast-pixel/CockatielLocation.js',
+  iconURL: 'https://extensions.penguinmod.com/images/bruhbeast-pixel/CockatielLocation.svg',
+  description: "Fetch Users' IP Addresses and Location.",
+  featured: true
+}, {
   name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
     defaultMessage: "Music",
     id: "gui.extension.music.name"
@@ -31780,19 +31831,6 @@ __webpack_require__.r(__webpack_exports__);
   incompatibleWithScratch: true
 }, {
   name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
-    defaultMessage: "Proto",
-    id: "jwProto.jwProtoExtension.name"
-  }),
-  extensionId: 'jwProto',
-  iconURL: _penguinmod_extensions_Proto_svg__WEBPACK_IMPORTED_MODULE_40___default.a,
-  description: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
-    defaultMessage: "Labelling, Placeholders and Defenitions packed into one sweet extension",
-    id: "jwProto.jwProtoExtension.description"
-  }),
-  featured: true,
-  incompatibleWithScratch: true
-}, {
-  name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
     defaultMessage: "OOP",
     id: "jwStructs.jwStructsExtension.name"
   }),
@@ -31808,21 +31846,6 @@ __webpack_require__.r(__webpack_exports__);
 },
 {
   name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
-    defaultMessage: "Modals",
-    id: "modals.ModalsExtension.name"
-  }),
-  extensionId: 'modals',
-  iconURL: _custom_custom_svg__WEBPACK_IMPORTED_MODULE_32___default.a,
-  insetIconURL: _custom_custom_svg__WEBPACK_IMPORTED_MODULE_32___default.a,
-  description: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
-    defaultMessage: "Create Scratch modals with this extension",
-    id: "modals.ModalsExtension.description"
-  }),
-  featured: true,
-  incompatibleWithScratch: true
-},
-{
-  name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
     defaultMessage: "Prism",
     id: "jgPrism.jgPrismExtension.name"
   }),
@@ -31831,20 +31854,6 @@ __webpack_require__.r(__webpack_exports__);
   description: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
     defaultMessage: "Blocks for specific use-cases or major convenience.",
     id: "jgPrism.jgPrismExtension.description"
-  }),
-  featured: true,
-  internetConnectionRequired: true,
-  incompatibleWithScratch: true
-}, {
-  name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
-    defaultMessage: "Runtime tools",
-    id: "jgRuntime.jgRuntimeExtension.name"
-  }),
-  extensionId: 'jgRuntime',
-  iconURL: _penguinmod_extensions_runtime_png__WEBPACK_IMPORTED_MODULE_36___default.a,
-  description: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
-    defaultMessage: "Blocks for updating Scratch objects like the stage.",
-    id: "jgRuntime.jgRuntimeExtension.description"
   }),
   featured: true,
   internetConnectionRequired: true,
@@ -31931,30 +31940,6 @@ __webpack_require__.r(__webpack_exports__);
   }),
   helpLink: 'https://scratch.mit.edu/ev3'
 }, {
-  name: 'LEGO BOOST',
-  extensionId: 'boost',
-  collaborator: 'LEGO',
-  iconURL: _boost_boost_png__WEBPACK_IMPORTED_MODULE_24___default.a,
-  insetIconURL: _boost_boost_small_svg__WEBPACK_IMPORTED_MODULE_25___default.a,
-  description: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
-    defaultMessage: "Bring robotic creations to life.",
-    id: "gui.extension.boost.description"
-  }),
-  featured: true,
-  disabled: false,
-  bluetoothRequired: true,
-  internetConnectionRequired: true,
-  launchPeripheralConnectionFlow: true,
-  useAutoScan: true,
-  connectionIconURL: _boost_boost_illustration_svg__WEBPACK_IMPORTED_MODULE_26___default.a,
-  connectionSmallIconURL: _boost_boost_small_svg__WEBPACK_IMPORTED_MODULE_25___default.a,
-  connectionTipIconURL: _boost_boost_button_illustration_svg__WEBPACK_IMPORTED_MODULE_27___default.a,
-  connectingMessage: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
-    defaultMessage: "Connecting",
-    id: "gui.extension.boost.connectingMessage"
-  }),
-  helpLink: 'https://scratch.mit.edu/boost'
-}, {
   name: 'LEGO Education WeDo 2.0',
   extensionId: 'wedo2',
   collaborator: 'LEGO',
@@ -32001,46 +31986,6 @@ __webpack_require__.r(__webpack_exports__);
     id: "gui.extension.gdxfor.connectingMessage"
   }),
   helpLink: 'https://scratch.mit.edu/vernier'
-}, {
-  name: 'Python',
-  extensionId: 'python',
-  extensionURL: 'https://cattymod.app/extensions/python.js',
-  iconURL: 'https://cattymod.app/extensions/python.svg',
-  description: 'Run Python code and integrate Python scripts directly into your projects.',
-  featured: true
-}, {
-  name: 'Iframes+',
-  extensionId: 'iframePlus',
-  extensionURL: 'https://extensions.mistium.com/featured/Iframe+.js',
-  iconURL: 'https://extensions.mistium.com/images/Iframe+.png',
-  description: 'Add iframes to your projects. Made by Mistium.',
-  featured: true
-}, {
-  name: 'CST 3D',
-  extensionId: 'cst12293d',
-  extensionURL: 'https://raw.githubusercontent.com/CST1229/turbowarp-extensions/3d/extensions/CST1229/3d.js',
-  iconURL: 'https://static.wikitide.net/pmodwiki/thumb/6/6a/3dextension.png/300px-3dextension.png',
-  description: 'Add 3D to your projects. Made by CST.',
-  featured: true
-}, {
-  name: 'Location',
-  extensionId: 'BPixelCockatiel',
-  extensionURL: 'https://extensions.penguinmod.com/extensions/bruhbeast-pixel/CockatielLocation.js',
-  iconURL: 'https://extensions.penguinmod.com/images/bruhbeast-pixel/CockatielLocation.svg',
-  description: "Fetch Users' IP Addresses and Location.",
-  featured: true
-}, {
-  name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
-    defaultMessage: "Custom Extension",
-    id: "tw.customExtension.name"
-  }),
-  extensionId: '',
-  iconURL: _custom_custom_svg__WEBPACK_IMPORTED_MODULE_32___default.a,
-  description: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
-    defaultMessage: "Load custom extensions from URLs. For developers. Experimental.",
-    id: "tw.customExtension.description"
-  }),
-  featured: true
 }]);
 
 /***/ }),
