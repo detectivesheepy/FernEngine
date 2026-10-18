@@ -1443,7 +1443,7 @@ const CloudVariableBadge = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__
 }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"]
 // eslint-disable-next-line max-len
 , {
-  defaultMessage: "This project uses cloud variables. Scrooch3 uses its own cloud variable server independent of Scratch. Beware of impersonation as anyone can change their username to anything. {learnMore}",
+  defaultMessage: "This project uses cloud variables. FernEngine uses its own cloud variable server independent of Scratch and TurboWarp. Beware of impersonation as anyone can change their username to anything.",
   id: "tw.cloudVariableBadge",
   values: {
     learnMore: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -3033,7 +3033,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 if (window.parent !== window) {
   // eslint-disable-next-line no-alert
-  alert('This page is embedding Scrooch3/TurboWarp in a way that is unsupported and will cease to function in the near future. Please read https://docs.turbowarp.org/embedding');
+  alert('This page is embedding FernEngine withTurboWarp in a way that is unsupported and will cease to function in the near future. Please read https://docs.turbowarp.org/embedding');
   throw new Error('Invalid embed');
 }
 let announcement = null;
@@ -3069,7 +3069,7 @@ const Footer = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.c
 }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_5__["FormattedMessage"]
 // eslint-disable-next-line max-len
 , {
-  defaultMessage: "Scrooch3 and TurboWarp are not affiliated with Scratch, the Scratch Team, or the Scratch Foundation.",
+  defaultMessage: "FernEngine and TurboWarp are not affiliated with Scratch, the Scratch Team, or the Scratch Foundation.",
   id: "tw.footer.disclaimer"
 })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
   className: _interface_css__WEBPACK_IMPORTED_MODULE_30___default.a.footerColumns
@@ -3141,9 +3141,9 @@ class Interface extends react__WEBPACK_IMPORTED_MODULE_2___default.a.Component {
   }
   handleUpdateProjectTitle(title, isDefault) {
     if (isDefault || !title) {
-      document.title = "Scrooch3 - ".concat(this.props.intl.formatMessage(messages.defaultTitle));
+      document.title = "FernEngine - ".concat(this.props.intl.formatMessage(messages.defaultTitle));
     } else {
-      document.title = "".concat(title, " - Scrooch3");
+      document.title = "".concat(title, " - FernEngine");
     }
   }
   render() {
@@ -3233,12 +3233,12 @@ class Interface extends react__WEBPACK_IMPORTED_MODULE_2___default.a.Component {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("p", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_5__["FormattedMessage"]
     // eslint-disable-next-line max-len
     , {
-      defaultMessage: "Scrooch3 is a Scratch Mod powered by Scrooch 3. Try it out by inputting a project ID or URL above or choosing a featured project below.",
+      defaultMessage: "FernEngine is a game engine based off of Scratch and TurboWarp. Try it out by inputting a project ID or URL above or choosing a featured project below.",
       id: "tw.home.description"
     }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
       className: _interface_css__WEBPACK_IMPORTED_MODULE_30___default.a.section
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_tw_featured_projects_featured_projects_jsx__WEBPACK_IMPORTED_MODULE_21__["default"], {
-      studio: "27205657"
+      studio: "52073017"
     }))) : null), isHomepage && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(Footer, null));
   }
 }
