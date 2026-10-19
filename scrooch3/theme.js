@@ -82,9 +82,54 @@
         background-color: ${navColor} !important;
         color: white !important;
       }
-      .modal_full-screen_FA4cr .modal_header_1h7ps {
+      .menu_menu_3k7QT,
+      body[theme="dark"] .menu_menu_3k7QT {
         background: ${navColor} !important;
         color: white !important;
+      }
+      .menu_menu-item_3EwYA:hover,
+      .menu_menu-item_3EwYA.menu_active_ebXO6 {
+        background: ${outlineColor} !important;
+        color: white !important;
+      }
+      .modal_header_1h7ps,
+      body[theme="dark"] .modal_header_1h7ps {
+        background: ${navColor} !important;
+        color: white !important;
+      }
+      .settings-modal_button_15QCA,
+      .settings-modal_button_15QCA:hover,
+      .settings-modal_button_15QCA:focus,
+      .settings-modal_button_15QCA:active {
+        background: ${navColor} !important;
+      }
+      .settings-modal_button_15QCA:focus,
+      .settings-modal_button_15QCA:active {
+        box-shadow: 0 0 0 3px ${outlineColor} !important;
+      }
+      .settings-modal_setting_PxhNM.settings-modal_active_1McfX {
+        background: rgba(0, 128, 0, 0.18) !important;
+      }
+      .settings-modal_setting_PxhNM:hover,
+      .settings-modal_setting_PxhNM:focus-within {
+        background: rgba(0, 128, 0, 0.28) !important;
+      }
+      .settings-modal_checkbox_1dXwG {
+        accent-color: ${navColor} !important;
+      }
+      .library_filter-bar_1W0DW {
+        background: #1a1a1a !important;
+      }
+      .tag-button_tag-button_nBLRM,
+      .tag-button_tag-button_nBLRM:hover {
+        background: ${navColor} !important;
+        color: white !important;
+      }
+      .tag-button_tag-button_nBLRM.tag-button_active_2stEz,
+      .tag-button_tag-button_nBLRM.tag-button_active_2stEz:hover {
+        background: ${outlineColor} !important;
+        color: white !important;
+        box-shadow: 0 0 0 2px ${navColor} !important;
       }
       .action-menu_tooltip_3Bkh5::after,
       .action-menu_coming-soon-tooltip_3jthM::after {

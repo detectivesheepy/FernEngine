@@ -8132,10 +8132,7 @@ const getFullscreenBackgroundColor = () => {
   if (params.has('fullscreen-background')) {
     return params.get('fullscreen-background');
   }
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    return '#111';
-  }
-  return 'white';
+  return '#111';
 };
 const fullscreenBackgroundColor = getFullscreenBackgroundColor();
 const GUIComponent = props => {
@@ -20668,6 +20665,45 @@ const parseExtensionURL = url => {
   }
   return url;
 };
+const extensionCategoryTags = [{
+  tag: 'programming languages',
+  intlLabel: {
+    id: 'fern.extensionCategory.programmingLanguages',
+    defaultMessage: 'Programming Languages'
+  }
+}, {
+  tag: 'hardware',
+  intlLabel: {
+    id: 'fern.extensionCategory.hardware',
+    defaultMessage: 'Hardware'
+  }
+}, {
+  tag: 'custom',
+  intlLabel: {
+    id: 'fern.extensionCategory.custom',
+    defaultMessage: 'Custom'
+  }
+}, {
+  tag: 'other',
+  intlLabel: {
+    id: 'fern.extensionCategory.other',
+    defaultMessage: 'Other'
+  }
+}];
+const extensionCategoryById = {
+  '': 'custom',
+  penguinmodExtraExtensions: 'custom',
+  python: 'programming languages',
+  javascript: 'programming languages',
+  videoSensing: 'hardware',
+  makeymakey: 'hardware',
+  GamepadExtension: 'hardware',
+  microbit: 'hardware',
+  ev3: 'hardware',
+  boost: 'hardware',
+  wedo2: 'hardware',
+  gdxfor: 'hardware'
+};
 class ExtensionLibrary extends react__WEBPACK_IMPORTED_MODULE_2___default.a.PureComponent {
   constructor(props) {
     super(props);
@@ -20715,13 +20751,16 @@ class ExtensionLibrary extends react__WEBPACK_IMPORTED_MODULE_2___default.a.Pure
     }
   }
   render() {
-    const extensionLibraryThumbnailData = _lib_libraries_extensions_index_jsx__WEBPACK_IMPORTED_MODULE_5__["default"].map(extension => _objectSpread({
+    const extensionLibraryThumbnailData = _lib_libraries_extensions_index_jsx__WEBPACK_IMPORTED_MODULE_5__["default"].filter(extension => extension.extensionId !== 'text' && extension.extensionId !== 'jwStructs').map(extension => _objectSpread(_objectSpread({
       rawURL: extension.iconURL || _components_action_menu_icon_sprite_svg__WEBPACK_IMPORTED_MODULE_7___default.a
-    }, extension));
+    }, extension), {}, {
+      tags: (extension.tags || []).concat(extensionCategoryById[extension.extensionId] || 'other')
+    }));
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(_components_library_library_jsx__WEBPACK_IMPORTED_MODULE_6__["default"], {
       data: extensionLibraryThumbnailData,
       filterable: false,
       id: "extensionLibrary",
+      tags: extensionCategoryTags,
       title: this.props.intl.formatMessage(messages.extensionTitle),
       visible: this.props.visible,
       onItemSelected: this.handleItemSelect,
@@ -31660,6 +31699,13 @@ __webpack_require__.r(__webpack_exports__);
   extensionURL: 'https://cattymod.app/extensions/python.js',
   iconURL: 'https://cattymod.app/extensions/python.svg',
   description: 'Run Python code and integrate Python scripts directly into your projects.',
+  featured: true
+}, {
+  name: 'JavaScript',
+  extensionId: 'javascript',
+  extensionURL: 'https://cattymod.app/extensions/javascript.js',
+  iconURL: 'https://cattymod.app/extensions/javascript.svg',
+  description: 'Run JS commands in your projects.',
   featured: true
 }, {
   name: 'Iframe',

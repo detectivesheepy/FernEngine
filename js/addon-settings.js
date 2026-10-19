@@ -2449,75 +2449,44 @@ function _extends() { _extends = Object.assign ? Object.assign.bind() : function
 
 
 const THEME_KEY = 'tw:theme';
-const darkMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-const getInitialDarkMode = () => {
-  try {
-    const item = localStorage.getItem(THEME_KEY);
-    if (item !== null) {
-      return item === 'dark';
-    }
-  } catch (e) {
-    // ignore
-  }
-  return darkMediaQuery.matches;
-};
+const getInitialDarkMode = () => true;
 const darkModeStylesheet = document.createElement('style');
 darkModeStylesheet.textContent = _raw_loader_tw_theme_dark_css__WEBPACK_IMPORTED_MODULE_1___default.a;
 const ThemeHOC = function ThemeHOC(WrappedComponent) {
   class ThemeComponent extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {
     constructor(props) {
       super(props);
-      this.handleQueryChange = this.handleQueryChange.bind(this);
-      this.handleClickTheme = this.handleClickTheme.bind(this);
       this.state = {
-        dark: getInitialDarkMode()
+        dark: true
       };
     }
     componentDidMount() {
-      // media query does not have listeners in legacy edge
-      if (darkMediaQuery.addEventListener) {
-        darkMediaQuery.addEventListener('change', this.handleQueryChange);
-      }
-      this.updateDark();
-    }
-    componentDidUpdate() {
       try {
-        localStorage.setItem(THEME_KEY, this.state.dark ? 'dark' : 'light');
+        localStorage.setItem(THEME_KEY, 'dark');
       } catch (e) {
         // ignore
       }
       this.updateDark();
     }
-    componentWillUnmount() {
-      // media query does not have listeners in legacy edge
-      if (darkMediaQuery.removeEventListener) {
-        darkMediaQuery.removeEventListener('change', this.handleQueryChange);
+    componentDidUpdate() {
+      try {
+        localStorage.setItem(THEME_KEY, 'dark');
+      } catch (e) {
+        // ignore
       }
+      this.updateDark();
     }
     updateDark() {
-      const dark = this.state.dark;
-      document.body.setAttribute('theme', dark ? 'dark' : 'light');
-      if (dark && !darkModeStylesheet.parentNode) {
+      document.body.setAttribute('theme', 'dark');
+      if (!darkModeStylesheet.parentNode) {
         document.body.insertBefore(darkModeStylesheet, document.body.firstChild);
-      } else if (!dark && darkModeStylesheet.parentNode) {
-        darkModeStylesheet.parentNode.removeChild(darkModeStylesheet);
       }
     }
-    handleQueryChange() {
-      this.setState({
-        dark: darkMediaQuery.matches
-      });
-    }
-    handleClickTheme() {
-      this.setState(state => ({
-        dark: !state.dark
-      }));
-    }
     render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(WrappedComponent, _extends({
-        onClickTheme: this.handleClickTheme,
-        isDark: this.state.dark
-      }, this.props));
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(WrappedComponent, _extends({}, this.props, {
+        onClickTheme: null,
+        isDark: true
+      }));
     }
   }
   return ThemeComponent;
