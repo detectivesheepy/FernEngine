@@ -1327,11 +1327,134 @@ const ArgumentType = __webpack_require__(/*! ./argument-type */ "./node_modules/
 const BlockType = __webpack_require__(/*! ./block-type */ "./node_modules/scratch-vm/src/extension-support/block-type.js");
 const TargetType = __webpack_require__(/*! ./target-type */ "./node_modules/scratch-vm/src/extension-support/target-type.js");
 const Cast = __webpack_require__(/*! ../util/cast */ "./node_modules/scratch-vm/src/util/cast.js");
+const Color = __webpack_require__(/*! ../util/color */ "./node_modules/scratch-vm/src/util/color.js");
+const Clone = {
+  simple: original => JSON.parse(JSON.stringify(original))
+};
+const ArgumentAlignment = {
+  DEFAULT: null,
+  LEFT: 'LEFT',
+  CENTER: 'CENTRE',
+  RIGHT: 'RIGHT'
+};
+const BlockShape = {
+  HEXAGONAL: 1,
+  ROUND: 2,
+  SQUARE: 3,
+  LEAF: 4,
+  PLUS: 5,
+  OCTAGONAL: 6,
+  BUMPED: 7,
+  INDENTED: 8,
+  SCRAPPED: 9,
+  ARROW: 10,
+  TICKET: 11
+};
+const NotchShape = {
+  SWITCH: 'switchCase',
+  HEXAGON: 'hexagon',
+  ROUND: 'round',
+  SQUARE: 'square',
+  LEAF: 'leaf',
+  PLUS: 'plus',
+  OCTAGONAL: 'octagonal',
+  BUMPED: 'bumped',
+  INDENTED: 'indented',
+  SCRAPPED: 'scrapped',
+  ARROW: 'arrow',
+  TICKET: 'ticket',
+  JIGSAW: 'jigsaw',
+  INVERTED: 'inverted',
+  PINCER: 'pincer'
+};
+const checkExternalURL = url => {
+  if (typeof url !== 'string' || !/^(https?:|data:|blob:)/.test(url)) {
+    throw new Error("Unsupported URL: ".concat(url));
+  }
+};
+const external = {
+  importModule: url => {
+    checkExternalURL(url);
+    return import(url);
+  },
+  fetch: async url => {
+    checkExternalURL(url);
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("HTTP ".concat(response.status, " fetching ").concat(url));
+    return response;
+  },
+  dataURL: async url => {
+    const response = await external.fetch(url);
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(blob);
+    });
+  },
+  blob: async url => (await external.fetch(url)).blob(),
+  evalAndReturn: async (url, returnExpression) => {
+    const response = await external.fetch(url);
+    return new Function("".concat(await response.text(), "\nreturn ").concat(returnExpression, ";"))();
+  }
+};
+let storedTranslations = {};
+const getLocale = () => typeof navigator !== 'undefined' ? navigator.language : 'en';
+const translate = (message, args) => {
+  if (typeof message === 'string') message = {
+    default: message
+  };
+  if (!message || typeof message !== 'object') throw new Error('unsupported data type in translate()');
+  const defaultMessage = typeof message.default === 'string' ? message.default : typeof message.defaultMessage === 'string' ? message.defaultMessage : '';
+  const locale = getLocale();
+  const localeTranslations = storedTranslations[locale] || storedTranslations[locale.split(/[-_]/)[0]] || {};
+  let translatedMessage = localeTranslations[message.id] || localeTranslations[message.id ? "_".concat(message.id) : "_".concat(defaultMessage)] || defaultMessage;
+  if (typeof translatedMessage === 'object' && translatedMessage !== null) {
+    translatedMessage = translatedMessage.message || translatedMessage.default || defaultMessage;
+  }
+  if (args && typeof args === 'object') {
+    translatedMessage = translatedMessage.replace(/\{([A-Za-z0-9_.-]+)\}/g, (placeholder, key) => {
+      const value = args[key];
+      return value === undefined || value === null ? placeholder : value;
+    });
+  }
+  return translatedMessage;
+};
+translate.setup = newTranslations => {
+  if (newTranslations) storedTranslations = newTranslations;
+};
+Object.defineProperty(translate, 'language', {
+  configurable: true,
+  enumerable: true,
+  get: getLocale
+});
 const Scratch = {
   ArgumentType,
+  ArgumentAlignment,
   BlockType,
+  BlockShape,
+  NotchShape,
   TargetType,
-  Cast
+  Cast,
+  Clone,
+  Color,
+  external,
+  canFetch: () => Promise.resolve(true),
+  fetch: (url, options) => fetch(url, options),
+  canOpenWindow: () => Promise.resolve(false),
+  openWindow: () => Promise.reject(new Error('Scratch.openWindow is not supported in FernEngine extensions')),
+  canRedirect: () => Promise.resolve(false),
+  redirect: () => Promise.reject(new Error('Scratch.redirect is not supported in FernEngine extensions')),
+  canRecordAudio: () => Promise.resolve(false),
+  canRecordVideo: () => Promise.resolve(false),
+  canReadClipboard: () => Promise.resolve(false),
+  canNotify: () => Promise.resolve(false),
+  canGeolocate: () => Promise.resolve(false),
+  canEmbed: () => Promise.resolve(false),
+  canDownload: () => Promise.resolve(false),
+  download: () => Promise.reject(new Error('Scratch.download is not supported in FernEngine extensions')),
+  translate
 };
 module.exports = Scratch;
 
@@ -1905,6 +2028,9 @@ class Color {
   static hexToRgb(hex) {
     if (hex.startsWith('#')) {
       hex = hex.substring(1);
+    }
+    if (hex.length === 8) {
+      hex = hex.slice(0, 6);
     }
     const parsed = parseInt(hex, 16);
     if (isNaN(parsed)) {
