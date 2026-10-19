@@ -31729,6 +31729,20 @@ __webpack_require__.r(__webpack_exports__);
   description: "Fetch Users' IP Addresses and Location.",
   featured: true
 }, {
+  name: 'TurboGemini',
+  extensionId: 'gemini',
+  extensionURL: 'https://lorenzo.nya.je/FernEngine/static/other/TurboGemini.js',
+  iconURL: 'https://ruby-devs.vercel.app/cdn/thumbnails/turbogemini.webp',
+  description: "Use Google's brand-new Gemini AI technology (similar to ChatGPT) inside your projects.",
+  featured: true
+}, {
+  name: 'PenguinPedia',
+  extensionId: 'penguinpedia',
+  extensionURL: 'https://lorenzo.nya.je/FernEngine/static/PenguinPedia.js',
+  iconURL: 'https://ruby-devs.vercel.app/cdn/thumbnails/penguinpedia.webp',
+  description: 'Get a lot of data from Wikipedia, like definitions and images!',
+  featured: true
+}, {
   name: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_1__["FormattedMessage"], {
     defaultMessage: "Music",
     id: "gui.extension.music.name"
