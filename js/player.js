@@ -2469,7 +2469,7 @@ const PackagerIntegrationHOC = function PackagerIntegrationHOC(WrappedComponent)
         }
       }, e.origin);
       this.props.vm.saveProjectSb3().then(readBlobAsArrayBuffer).then(buffer => {
-        const name = "".concat(this.props.reduxProjectTitle, ".sb3");
+        const name = "".concat(this.props.reduxProjectTitle, ".ali");
         e.source.postMessage({
           p4: {
             type: 'finish-import',
