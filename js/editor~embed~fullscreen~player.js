@@ -18637,6 +18637,17 @@ class Blocks extends react__WEBPACK_IMPORTED_MODULE_5___default.a.Component {
     super(props);
     this.ScratchBlocks = Object(_lib_blocks__WEBPACK_IMPORTED_MODULE_6__["default"])(props.vm);
     window.ScratchBlocks = this.ScratchBlocks;
+    const scratchMessages = this.ScratchBlocks.ScratchMsgs;
+    if (!scratchMessages.fernEngineAustralianTranslationWrapped) {
+      const originalTranslate = scratchMessages.translate;
+      scratchMessages.translate = function () {
+        const message = originalTranslate.apply(this, arguments);
+        if (!this.fernEngineAustralianLocale || typeof message !== 'string') return message;
+        return message.replace(/\bEvents\b/gi, match => match[0] === match[0].toUpperCase() ? 'Current affairs' : 'current affairs');
+      };
+      scratchMessages.fernEngineAustralianTranslationWrapped = true;
+    }
+    scratchMessages.fernEngineAustralianLocale = props.locale === 'en-AU';
     _addons_hooks__WEBPACK_IMPORTED_MODULE_19__["default"].blockly = this.ScratchBlocks;
     _addons_hooks__WEBPACK_IMPORTED_MODULE_19__["default"].blocklyCallbacks.forEach(i => i());
     _addons_hooks__WEBPACK_IMPORTED_MODULE_19__["default"].blocklyCallbacks.length = 0;
@@ -18657,7 +18668,8 @@ class Blocks extends react__WEBPACK_IMPORTED_MODULE_5___default.a.Component {
     this.props.vm.setInEditor(false);
     this.ScratchBlocks.FieldColourSlider.activateEyedropper_ = this.props.onActivateColorPicker;
     this.ScratchBlocks.Procedures.externalProcedureDefCallback = this.props.onActivateCustomProcedures;
-    this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
+    this.ScratchBlocks.ScratchMsgs.fernEngineAustralianLocale = this.props.locale === 'en-AU';
+    this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale === 'en-AU' ? 'en' : this.props.locale);
     const workspaceConfig = lodash_defaultsdeep__WEBPACK_IMPORTED_MODULE_2___default()({}, Blocks.defaultOptions, this.props.options, {
       rtl: this.props.isRtl,
       toolbox: this.props.toolboxXML
@@ -18775,7 +18787,8 @@ class Blocks extends react__WEBPACK_IMPORTED_MODULE_5___default.a.Component {
     }, 0);
   }
   setLocale() {
-    this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale);
+    this.ScratchBlocks.ScratchMsgs.fernEngineAustralianLocale = this.props.locale === 'en-AU';
+    this.ScratchBlocks.ScratchMsgs.setLocale(this.props.locale === 'en-AU' ? 'en' : this.props.locale);
     this.props.vm.setLocale(this.props.locale, this.props.messages).then(() => {
       this.workspace.getFlyout().setRecyclingEnabled(false);
       this.props.vm.refreshWorkspace();
@@ -31731,9 +31744,16 @@ __webpack_require__.r(__webpack_exports__);
 }, {
   name: 'TurboGemini',
   extensionId: 'gemini',
-  extensionURL: 'https://lorenzo.nya.je/FernEngine/static/other/TurboGemini.js',
+  extensionURL: 'https://logise1.github.io/pangai/pangai.js',
   iconURL: 'https://ruby-devs.vercel.app/cdn/thumbnails/turbogemini.webp',
   description: "Use Google's brand-new Gemini AI technology (similar to ChatGPT) inside your projects.",
+  featured: true
+}, {
+  name: 'FernEngine C# Bridge',
+  extensionId: 'nexuscsharp',
+  extensionURL: 'https://lorenzo.nya.je/FernEngine/static/other/FernEngineCSharpBridge.js',
+  iconURL: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4avBXoXNFujMgIhcxlORwDOwuREQ_77si6IwTydKLxw&s=10',
+  description: 'Add C# support to your projects',
   featured: true
 }, {
   name: 'PenguinPedia',
@@ -38897,10 +38917,103 @@ __webpack_require__.r(__webpack_exports__);
 Object(react_intl__WEBPACK_IMPORTED_MODULE_0__["addLocaleData"])(_turbowarp_scratch_l10n__WEBPACK_IMPORTED_MODULE_1__["localeData"]);
 const UPDATE_LOCALES = 'scratch-gui/locales/UPDATE_LOCALES';
 const SELECT_LOCALE = 'scratch-gui/locales/SELECT_LOCALE';
+const australianTermReplacements = [{
+  pattern: /\bbackpacks\b/gi,
+  replacement: 'tucker bags'
+}, {
+  pattern: /\bbackpack\b/gi,
+  replacement: 'tucker bag'
+}, {
+  pattern: /\bevents\b/gi,
+  replacement: 'current affairs'
+}, {
+  pattern: /\bevent\b/gi,
+  replacement: 'current affair'
+}, {
+  pattern: /\bcostumes\b/gi,
+  replacement: 'get-ups'
+}, {
+  pattern: /\bcostume\b/gi,
+  replacement: 'get-up'
+}, {
+  pattern: /\bsprites\b/gi,
+  replacement: 'characters'
+}, {
+  pattern: /\bsprite\b/gi,
+  replacement: 'character'
+}, {
+  pattern: /\bblocks\b/gi,
+  replacement: 'bricks'
+}, {
+  pattern: /\bblock\b/gi,
+  replacement: 'brick'
+}, {
+  pattern: /\bgreen flag\b/gi,
+  replacement: 'start flag'
+}, {
+  pattern: /\bextensions\b/gi,
+  replacement: 'add-ons'
+}, {
+  pattern: /\bextension\b/gi,
+  replacement: 'add-on'
+}, {
+  pattern: /\bvariables?\b/gi,
+  replacement: 'stash'
+}, {
+  pattern: /\blooks\b/gi,
+  replacement: 'appearances'
+}, {
+  pattern: /\bsounds?\b/gi,
+  replacement: 'noise'
+}, {
+  pattern: /\bmotion\b/gi,
+  replacement: 'movement'
+}, {
+  pattern: /\bsensing\b/gi,
+  replacement: 'noticing'
+}, {
+  pattern: /\boperators\b/gi,
+  replacement: 'maths'
+}, {
+  pattern: /\bchoose\b/gi,
+  replacement: 'pick'
+}, {
+  pattern: /\bupload\b/gi,
+  replacement: 'chuck in'
+}, {
+  pattern: /\bdownload\b/gi,
+  replacement: 'grab'
+}, {
+  pattern: /\bdelete\b/gi,
+  replacement: 'chuck out'
+}, {
+  pattern: /\bsave\b/gi,
+  replacement: 'keep'
+}, {
+  pattern: /\bstage\b/gi,
+  replacement: 'showground'
+}];
+const getAustralianMessage = message => australianTermReplacements.reduce((translated, term) => translated.replace(term.pattern, match => {
+  if (match === match.toUpperCase()) return term.replacement.toUpperCase();
+  if (match[0] === match[0].toUpperCase()) return term.replacement[0].toUpperCase() + term.replacement.slice(1);
+  return term.replacement;
+}), message);
+const addAustralianLocale = messagesByLocale => {
+  const englishMessages = messagesByLocale.en;
+  if (!englishMessages) return messagesByLocale;
+  const australianMessages = {};
+  Object.keys(englishMessages).forEach(key => {
+    const message = englishMessages[key];
+    australianMessages[key] = typeof message === 'string' ? getAustralianMessage(message) : message;
+  });
+  return Object.assign({}, messagesByLocale, {
+    'en-AU': australianMessages
+  });
+};
 const initialState = {
   isRtl: false,
   locale: 'en',
-  messagesByLocale: _turbowarp_scratch_l10n_locales_editor_msgs__WEBPACK_IMPORTED_MODULE_2__["default"],
+  messagesByLocale: addAustralianLocale(_turbowarp_scratch_l10n_locales_editor_msgs__WEBPACK_IMPORTED_MODULE_2__["default"]),
   messages: _turbowarp_scratch_l10n_locales_editor_msgs__WEBPACK_IMPORTED_MODULE_2__["default"].en
 };
 const reducer = function reducer(state, action) {
@@ -38913,13 +39026,15 @@ const reducer = function reducer(state, action) {
         messagesByLocale: state.messagesByLocale,
         messages: state.messagesByLocale[action.locale]
       });
-    case UPDATE_LOCALES:
+    case UPDATE_LOCALES: {
+      const messagesByLocale = addAustralianLocale(action.messagesByLocale);
       return Object.assign({}, state, {
         isRtl: state.isRtl,
         locale: state.locale,
-        messagesByLocale: action.messagesByLocale,
-        messages: action.messagesByLocale[state.locale]
+        messagesByLocale: messagesByLocale,
+        messages: messagesByLocale[state.locale]
       });
+    }
     default:
       return state;
   }

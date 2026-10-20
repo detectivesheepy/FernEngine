@@ -1549,6 +1549,39 @@ const decorate = text => {
   }, "#".concat(match)));
   return text;
 };
+const copyEmbedCode = async projectId => {
+  const embedURL = new URL('embed.html', window.location.href);
+  embedURL.hash = projectId;
+  const embedCode = '<iframe src="' + embedURL.href + '" width="480" height="360" allowfullscreen></iframe>';
+  try {
+    if (!navigator.clipboard || !navigator.clipboard.writeText) {
+      throw new Error('Clipboard API unavailable');
+    }
+    await navigator.clipboard.writeText(embedCode);
+  } catch (error) {
+    const textarea = document.createElement('textarea');
+    textarea.value = embedCode;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    let copied = false;
+    try {
+      textarea.select();
+      copied = document.execCommand('copy');
+    } catch (fallbackError) {
+      console.error('Could not copy embed code:', fallbackError);
+    } finally {
+      document.body.removeChild(textarea);
+    }
+    if (!copied) {
+      console.error('Could not copy embed code:', error);
+      window.alert('Could not copy the embed code. Please check clipboard permissions and try again.');
+      return;
+    }
+  }
+  window.alert('Embed code copied to clipboard.');
+};
 const Description = _ref => {
   let {
     instructions,
@@ -1566,7 +1599,15 @@ const Description = _ref => {
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_2__["FormattedMessage"], {
     defaultMessage: "View project on Scratch",
     id: "tw.viewOnScratch"
-  }))), instructions ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+  })), /^\d+$/.test(projectId) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    style: {
+      marginLeft: '0.75rem',
+      padding: '0.25rem 0.5rem',
+      cursor: 'pointer'
+    },
+    onClick: () => copyEmbedCode(projectId)
+  }, "Copy embed code") : null), instructions ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: _description_css__WEBPACK_IMPORTED_MODULE_3___default.a.header
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_2__["FormattedMessage"], {
     defaultMessage: "Instructions",

@@ -66612,6 +66612,7 @@ const locales = {
     'et': {name: 'Eesti'},
     'el': {name: 'Ελληνικά'},
     'en': {name: 'English'},
+    'en-AU': {name: 'Australian'},
     'es': {name: 'Español (España)'},
     'es-419': {name: 'Español Latinoamericano'},
     'eo': {name: 'Esperanto'},
@@ -66678,6 +66679,10 @@ const customLocales = {
     'ab': {
         locale: 'ab',
         parentLocale: 'ru'
+    },
+    'en-AU': {
+        locale: 'en-AU',
+        parentLocale: 'en'
     },
     // Aragonese is not in the locale data, using es for Spain
     'an': {
