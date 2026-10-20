@@ -182096,7 +182096,7 @@ class ExtensionManager {
    * @param {string} extensionURL - the URL for the extension to load OR the ID of an internal extension
    * @returns {Promise} resolved once the extension is loaded and initialized or rejected on failure
    */
-  async loadExtensionURL(extensionURL) {
+  async loadExtensionURL(extensionURL, forceUnsandboxed = false) {
     if (this.isBuiltinExtension(extensionURL)) {
       this.loadExtensionIdSync(extensionURL);
       return;
@@ -182106,7 +182106,7 @@ class ExtensionManager {
     }
     this.runtime.setExternalCommunicationMethod('customExtensions', true);
     this.loadingAsyncExtensions++;
-    const sandboxMode = await this.securityManager.getSandboxMode(extensionURL);
+    const sandboxMode = forceUnsandboxed ? 'unsandboxed' : await this.securityManager.getSandboxMode(extensionURL);
     if (sandboxMode === 'unsandboxed') {
       const {
         load

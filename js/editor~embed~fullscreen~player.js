@@ -20743,7 +20743,7 @@ class ExtensionLibrary extends react__WEBPACK_IMPORTED_MODULE_2___default.a.Pure
         this.props.onCategorySelected(id);
       } else {
         const parsedURL = isCustomURL ? parseExtensionURL(url) : url;
-        this.props.vm.extensionManager.loadExtensionURL(parsedURL).then(() => {
+        this.props.vm.extensionManager.loadExtensionURL(parsedURL, Boolean(item.extensionURL)).then(() => {
           this.props.onCategorySelected(id);
           if (isCustomURL) {
             let newUrl = location.pathname;
