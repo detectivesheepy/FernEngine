@@ -197,7 +197,7 @@
     <section class="workspace" aria-label="Packager workspace">
       <div class="empty-state">
         <strong>Package a project</strong>
-        <span>Select a FernEngine (.ali) or Scratch (.sb3) project. The packager will open in a new tab so previews can open normally.</span>
+        <span>Select a FernEngine (.ali) or Scratch (.sb3) project to package.</span>
       </div>
     </section>
     <script>
@@ -206,12 +206,25 @@
 
         var PACKAGER_ORIGIN = "https://packager.turbowarp.org";
         var PACKAGER_URL = PACKAGER_ORIGIN;
+        var importFrom = new URLSearchParams(location.search).get("import_from");
+        var parentOrigin = null;
+        if (importFrom) {
+          try {
+            var parsedImportFrom = new URL(importFrom);
+            if (parsedImportFrom.protocol === "https:" || parsedImportFrom.protocol === "http:") {
+              parentOrigin = parsedImportFrom.origin;
+            }
+          } catch (error) {
+            parentOrigin = null;
+          }
+        }
         var fileInput = document.getElementById("project-file");
         var openButton = document.getElementById("open-packager");
         var status = document.getElementById("status");
         var selectedFile = null;
         var packagerWindow = null;
         var importing = false;
+        var parentImportActive = false;
 
         var setStatus = function (message, kind) {
           status.textContent = message;
@@ -231,7 +244,7 @@
             setStatus("Choose a file ending in .ali or .sb3.", "error");
             return;
           }
-          setStatus("Ready to open " + selectedFile.name + " in a new tab.");
+          setStatus("Ready to open " + selectedFile.name + " in the packager.");
         });
 
         openButton.addEventListener("click", function () {
@@ -266,6 +279,37 @@
 
           sendProject(event.source, event.origin);
         });
+
+        window.addEventListener("message", function (event) {
+          if (!parentOrigin ||
+              event.origin !== parentOrigin ||
+              event.source !== window.opener ||
+              !event.data ||
+              !event.data.p4) {
+            return;
+          }
+
+          var data = event.data.p4;
+          if (data.type === "start-import") {
+            parentImportActive = true;
+            return;
+          }
+          if (data.type === "cancel-import") {
+            parentImportActive = false;
+            setStatus("The editor cancelled the project transfer.", "error");
+            return;
+          }
+          if (data.type !== "finish-import" || !parentImportActive) return;
+
+          parentImportActive = false;
+          selectedFile = new File([data.data], data.name || "project.sb3");
+          openButton.disabled = false;
+          setStatus("Project received from the editor. Choose Load project to continue.", "success");
+        });
+
+        if (parentOrigin && window.opener) {
+          window.opener.postMessage({p4: {type: "ready-for-import"}}, parentOrigin);
+        }
 
         var sendProject = function (target, origin) {
           if (!selectedFile || importing || !target) return;
