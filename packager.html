@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Package FernEngine, Scratch, and PenguinMod projects for the web and desktop.">
+    <title>FernEngine Packager</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: #f5f7fa;
+        color: #252b36;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      main {
+        width: min(100%, 620px);
+        padding: 32px;
+        border: 1px solid #dce1e8;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 12px 36px rgba(31, 45, 61, 0.1);
+      }
+      body.packager-open {
+        display: block;
+        padding: 16px;
+      }
+      body.packager-open main {
+        width: min(100%, 960px);
+        margin: 0 auto 16px;
+        padding: 20px;
+      }
+      #packager-frame {
+        display: none;
+        width: 100%;
+        height: calc(100vh - 210px);
+        min-height: 500px;
+        border: 1px solid #dce1e8;
+        border-radius: 12px;
+        background: #111;
+      }
+      body.packager-open #packager-frame {
+        display: block;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+      p {
+        line-height: 1.55;
+      }
+      .muted {
+        color: #596579;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin: 24px 0 12px;
+      }
+      input[type="file"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px dashed #aab4c3;
+        border-radius: 8px;
+      }
+      button,
+      .home-link {
+        display: inline-block;
+        padding: 11px 16px;
+        border: 0;
+        border-radius: 8px;
+        background: #4c97ff;
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      button:disabled {
+        background: #aab4c3;
+        cursor: not-allowed;
+      }
+      .home-link {
+        background: #e8edf4;
+        color: #252b36;
+      }
+      #status {
+        min-height: 1.5em;
+        margin: 12px 0;
+      }
+      #status[data-kind="error"] {
+        color: #b42318;
+      }
+      #status[data-kind="success"] {
+        color: #137333;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          background: #171a20;
+          color: #e9edf4;
+        }
+        main {
+          border-color: #343b47;
+          background: #222730;
+          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+        }
+        .muted {
+          color: #b1bac8;
+        }
+        input[type="file"] {
+          border-color: #596579;
+        }
+        .home-link {
+          background: #343b47;
+          color: #e9edf4;
+        }
+        #packager-frame {
+          border-color: #343b47;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>FernEngine Packager</h1>
+      <p class="muted">Choose a project archive to package with TurboWarp. Project files are sent directly to TurboWarp Packager.</p>
+      <label for="project-file">Project file (.ali or .sb3)</label>
+      <div class="actions">
+        <input id="project-file" type="file" accept=".ali,.sb3">
+      </div>
+      <div class="actions">
+        <button id="open-packager" type="button" disabled>Load project in TurboWarp Packager</button>
+        <a class="home-link" href="./index.html">Back to FernEngine</a>
+      </div>
+      <p id="status" role="status" aria-live="polite">Select a project file to continue.</p>
+    </main>
+    <iframe id="packager-frame" title="TurboWarp Packager" allow="fullscreen"></iframe>
+    <script>
+      (function () {
+        "use strict";
+
+        var PACKAGER_ORIGIN = "https://packager.turbowarp.org";
+        var PACKAGER_URL = PACKAGER_ORIGIN + "/";
+        var fileInput = document.getElementById("project-file");
+        var openButton = document.getElementById("open-packager");
+        var packagerFrame = document.getElementById("packager-frame");
+        var status = document.getElementById("status");
+        var selectedFile = null;
+        var frameReady = false;
+        var importing = false;
+
+        var setStatus = function (message, kind) {
+          status.textContent = message;
+          status.dataset.kind = kind || "";
+        };
+
+        fileInput.addEventListener("change", function () {
+          selectedFile = fileInput.files && fileInput.files[0] || null;
+          openButton.disabled = !selectedFile;
+          if (!selectedFile) {
+            setStatus("Select a project file to continue.");
+            return;
+          }
+          if (!/\.(ali|sb3)$/i.test(selectedFile.name)) {
+            selectedFile = null;
+            openButton.disabled = true;
+            setStatus("Choose a file ending in .ali or .sb3.", "error");
+            return;
+          }
+          setStatus("Ready to open " + selectedFile.name + " in TurboWarp Packager.");
+        });
+
+        openButton.addEventListener("click", function () {
+          if (!selectedFile || importing) return;
+          if (location.origin === "null") {
+            setStatus("Open this page from its hosted FernEngine website; file:// pages cannot securely connect to the packager.", "error");
+            return;
+          }
+
+          if (!packagerFrame.src) {
+            document.body.classList.add("packager-open");
+            setStatus("Connecting to TurboWarp Packager...");
+            packagerFrame.src = PACKAGER_URL + "?import_from=" + encodeURIComponent(location.origin);
+          } else if (frameReady) {
+            sendProject(packagerFrame.contentWindow, PACKAGER_ORIGIN);
+          }
+          openButton.disabled = true;
+        });
+
+        window.addEventListener("message", function (event) {
+          if (event.origin !== PACKAGER_ORIGIN ||
+              event.source !== packagerFrame.contentWindow ||
+              !event.data ||
+              !event.data.p4 ||
+              event.data.p4.type !== "ready-for-import" ||
+              !selectedFile ||
+              importing) {
+            return;
+          }
+
+          sendProject(event.source, event.origin);
+        });
+
+        var sendProject = function (target, origin) {
+          if (!selectedFile || importing || !target) return;
+          importing = true;
+          target.postMessage({p4: {type: "start-import"}}, origin);
+          setStatus("Sending " + selectedFile.name + " to TurboWarp Packager...");
+
+          selectedFile.arrayBuffer().then(function (buffer) {
+            if (!packagerFrame.contentWindow) {
+              throw new Error("TurboWarp Packager is no longer available.");
+            }
+            target.postMessage({
+              p4: {
+                type: "finish-import",
+                data: buffer,
+                name: selectedFile.name.replace(/\.ali$/i, ".sb3")
+              }
+            }, origin, [buffer]);
+            setStatus("Project imported. Configure and export it in the packager below.", "success");
+          }).catch(function (error) {
+            target.postMessage({p4: {type: "cancel-import"}}, origin);
+            setStatus("Could not send the project: " + error.message, "error");
+          }).then(function () {
+            importing = false;
+            openButton.disabled = !selectedFile;
+          });
+        };
+
+        packagerFrame.addEventListener("load", function () {
+          frameReady = true;
+        });
+      })();
+    </script>
+  </body>
+</html>
