@@ -2383,8 +2383,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
-const PACKAGER_URL = 'https://lorenzo.nya.je/FernEngine/packager.html';
-const PACKAGER_ORIGIN = "https://lorenzo.nya.je";
+const PACKAGER_URL = 'https://packager.turbowarp.org';
+const PACKAGER_ORIGIN = "https://packager.turbowarp.org";
 const readBlobAsArrayBuffer = blob => new Promise((resolve, reject) => {
   const fr = new FileReader();
   fr.onload = () => resolve(fr.result);
