@@ -7,151 +7,232 @@
     <title>FernEngine Packager</title>
     <style>
       :root {
-        color-scheme: light dark;
+        --accent-color: #008000;
+        --accent-hover: #004d00;
+        --page-background: #111;
+        --panel-background: #1a1a1a;
+        --panel-border: #333;
+        --text-primary: #f5f5f5;
+        --text-secondary: #b8b8b8;
+        color-scheme: dark;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        background: #f5f7fa;
-        color: #252b36;
+        background: var(--page-background);
+        color: var(--text-primary);
       }
       * {
         box-sizing: border-box;
       }
       body {
-        min-height: 100vh;
+        width: 100%;
+        min-width: 320px;
+        height: 100vh;
         margin: 0;
-        display: grid;
-        place-items: center;
-        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .top-bar {
+        z-index: 1;
+        display: flex;
+        min-height: 48px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 0 16px;
+        background: var(--accent-color);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+      .brand {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: 10px;
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .brand img {
+        width: 26px;
+        height: 26px;
+        object-fit: contain;
+      }
+      .home-link {
+        padding: 7px 11px;
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        border-radius: 4px;
+        color: #fff;
+        font-size: 13px;
+        text-decoration: none;
+      }
+      .home-link:hover {
+        background: rgba(255, 255, 255, 0.12);
       }
       main {
-        width: min(100%, 620px);
-        padding: 32px;
-        border: 1px solid #dce1e8;
-        border-radius: 16px;
-        background: #fff;
-        box-shadow: 0 12px 36px rgba(31, 45, 61, 0.1);
+        z-index: 1;
+        display: flex;
+        min-height: 58px;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 14px;
+        border-bottom: 1px solid var(--panel-border);
+        background: var(--panel-background);
       }
-      body.packager-open {
-        display: block;
-        padding: 16px;
+      .file-label {
+        color: var(--text-secondary);
+        font-size: 13px;
+        font-weight: 600;
       }
-      body.packager-open main {
-        width: min(100%, 960px);
-        margin: 0 auto 16px;
-        padding: 20px;
+      input[type="file"] {
+        min-width: 0;
+        max-width: min(420px, 100%);
+        color: var(--text-secondary);
+        font: inherit;
+        font-size: 13px;
+      }
+      input[type="file"]::file-selector-button {
+        margin-right: 10px;
+        padding: 7px 10px;
+        border: 1px solid #4a4a4a;
+        border-radius: 4px;
+        background: #303030;
+        color: var(--text-primary);
+        font: inherit;
+        cursor: pointer;
+      }
+      input[type="file"]::file-selector-button:hover {
+        background: #3a3a3a;
+      }
+      button {
+        min-height: 34px;
+        padding: 7px 12px;
+        border: 0;
+        border-radius: 4px;
+        background: var(--accent-color);
+        color: #fff;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button:hover:not(:disabled) {
+        background: var(--accent-hover);
+      }
+      button:focus-visible,
+      .home-link:focus-visible,
+      input[type="file"]:focus-visible,
+      input[type="file"]::file-selector-button:focus-visible {
+        outline: 3px solid var(--accent-color);
+        outline-offset: 3px;
+      }
+      button:disabled {
+        background: #444;
+        color: #aaa;
+        cursor: not-allowed;
+      }
+      #status {
+        min-width: 0;
+        margin: 0 0 0 auto;
+        color: var(--text-secondary);
+        font-size: 13px;
+      }
+      #status[data-kind="error"] {
+        color: #ff7777;
+      }
+      #status[data-kind="success"] {
+        color: #83d983;
+      }
+      .workspace {
+        position: relative;
+        display: flex;
+        min-height: 0;
+        flex: 1;
+        background: var(--page-background);
       }
       #packager-frame {
         display: none;
         width: 100%;
-        height: calc(100vh - 210px);
-        min-height: 500px;
-        border: 1px solid #dce1e8;
-        border-radius: 12px;
-        background: #111;
+        height: 100%;
+        border: 0;
+        background: var(--page-background);
       }
       body.packager-open #packager-frame {
         display: block;
       }
-      h1 {
-        margin: 0 0 8px;
-        font-size: 28px;
-      }
-      p {
-        line-height: 1.55;
-      }
-      .muted {
-        color: #596579;
-      }
-      .actions {
+      .empty-state {
         display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
+        width: min(100%, 520px);
+        flex-direction: column;
         align-items: center;
-        margin: 24px 0 12px;
+        justify-content: center;
+        gap: 8px;
+        margin: auto;
+        padding: 32px;
+        color: var(--text-secondary);
+        text-align: center;
       }
-      input[type="file"] {
-        width: 100%;
-        padding: 12px;
-        border: 1px dashed #aab4c3;
-        border-radius: 8px;
+      .empty-state strong {
+        color: var(--text-primary);
+        font-size: 18px;
       }
-      button,
-      .home-link {
-        display: inline-block;
-        padding: 11px 16px;
-        border: 0;
-        border-radius: 8px;
-        background: #4c97ff;
-        color: #fff;
-        font: inherit;
-        font-weight: 600;
-        text-decoration: none;
-        cursor: pointer;
+      body.packager-open .empty-state {
+        display: none;
       }
-      button:disabled {
-        background: #aab4c3;
-        cursor: not-allowed;
-      }
-      .home-link {
-        background: #e8edf4;
-        color: #252b36;
-      }
-      #status {
-        min-height: 1.5em;
-        margin: 12px 0;
-      }
-      #status[data-kind="error"] {
-        color: #b42318;
-      }
-      #status[data-kind="success"] {
-        color: #137333;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          background: #171a20;
-          color: #e9edf4;
+      @media (max-width: 640px) {
+        .top-bar {
+          padding: 0 10px;
         }
         main {
-          border-color: #343b47;
-          background: #222730;
-          box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+          align-items: flex-start;
         }
-        .muted {
-          color: #b1bac8;
+        #status {
+          width: 100%;
+          margin: 0;
         }
-        input[type="file"] {
-          border-color: #596579;
-        }
-        .home-link {
-          background: #343b47;
-          color: #e9edf4;
-        }
-        #packager-frame {
-          border-color: #343b47;
+        .workspace {
+          min-height: 240px;
         }
       }
     </style>
   </head>
   <body>
+    <header class="top-bar">
+      <div class="brand">
+        <img src="./static/other/F-10-18-2026.png" alt="">
+        <span>FernEngine Packager</span>
+      </div>
+      <a class="home-link" href="./index.html">Back to editor</a>
+    </header>
     <main>
-      <h1>FernEngine Packager</h1>
-      <p class="muted">Choose a project archive to package with TurboWarp. Project files are sent directly to TurboWarp Packager.</p>
-      <label for="project-file">Project file (.ali or .sb3)</label>
-      <div class="actions">
-        <input id="project-file" type="file" accept=".ali,.sb3">
-      </div>
-      <div class="actions">
-        <button id="open-packager" type="button" disabled>Load project in TurboWarp Packager</button>
-        <a class="home-link" href="./index.html">Back to FernEngine</a>
-      </div>
+      <label class="file-label" for="project-file">Project</label>
+      <input id="project-file" type="file" accept=".ali,.sb3" aria-label="Choose a project file">
+      <button id="open-packager" type="button" disabled>Load project</button>
       <p id="status" role="status" aria-live="polite">Select a project file to continue.</p>
     </main>
-    <iframe id="packager-frame" title="TurboWarp Packager" allow="fullscreen"></iframe>
+    <section class="workspace" aria-label="Packager workspace">
+      <div class="empty-state">
+        <strong>Package a project</strong>
+        <span>Select a FernEngine (.ali) or Scratch (.sb3) project, then choose Load project.</span>
+      </div>
+      <iframe id="packager-frame" title="TurboWarp Packager" allow="fullscreen"></iframe>
+    </section>
     <script>
       (function () {
         "use strict";
 
         var PACKAGER_ORIGIN = "https://packager.turbowarp.org";
         var PACKAGER_URL = PACKAGER_ORIGIN + "/";
+        var importFrom = new URLSearchParams(location.search).get("import_from");
+        var parentOrigin = null;
+        if (importFrom) {
+          try {
+            var parsedImportFrom = new URL(importFrom);
+            if (parsedImportFrom.protocol === "https:" || parsedImportFrom.protocol === "http:") {
+              parentOrigin = parsedImportFrom.origin;
+            }
+          } catch (error) {
+            parentOrigin = null;
+          }
+        }
         var fileInput = document.getElementById("project-file");
         var openButton = document.getElementById("open-packager");
         var packagerFrame = document.getElementById("packager-frame");
@@ -159,10 +240,19 @@
         var selectedFile = null;
         var frameReady = false;
         var importing = false;
+        var parentReadySent = false;
+        var parentImportActive = false;
 
         var setStatus = function (message, kind) {
           status.textContent = message;
           status.dataset.kind = kind || "";
+        };
+
+        var loadPackager = function () {
+          if (packagerFrame.src) return;
+          document.body.classList.add("packager-open");
+          setStatus("Connecting to TurboWarp Packager...");
+          packagerFrame.src = PACKAGER_URL + "?import_from=" + encodeURIComponent(location.origin);
         };
 
         fileInput.addEventListener("change", function () {
@@ -188,28 +278,56 @@
             return;
           }
 
-          if (!packagerFrame.src) {
-            document.body.classList.add("packager-open");
-            setStatus("Connecting to TurboWarp Packager...");
-            packagerFrame.src = PACKAGER_URL + "?import_from=" + encodeURIComponent(location.origin);
-          } else if (frameReady) {
+          loadPackager();
+          if (frameReady) {
             sendProject(packagerFrame.contentWindow, PACKAGER_ORIGIN);
           }
           openButton.disabled = true;
         });
 
         window.addEventListener("message", function (event) {
+          if (parentOrigin &&
+              event.origin === parentOrigin &&
+              event.source === window.opener &&
+              event.data &&
+              event.data.p4) {
+            var parentData = event.data.p4;
+            if (!frameReady || !packagerFrame.contentWindow) return;
+            if (parentData.type === "start-import") {
+              parentImportActive = true;
+              packagerFrame.contentWindow.postMessage({p4: {type: "start-import"}}, PACKAGER_ORIGIN);
+            } else if (parentData.type === "finish-import" && parentImportActive) {
+              packagerFrame.contentWindow.postMessage({
+                p4: {
+                  type: "finish-import",
+                  data: parentData.data,
+                  name: parentData.name
+                }
+              }, PACKAGER_ORIGIN, [parentData.data]);
+              parentImportActive = false;
+              setStatus("Project imported. Configure and export it in the packager below.", "success");
+            } else if (parentData.type === "cancel-import" && parentImportActive) {
+              packagerFrame.contentWindow.postMessage({p4: {type: "cancel-import"}}, PACKAGER_ORIGIN);
+              parentImportActive = false;
+            }
+            return;
+          }
+
           if (event.origin !== PACKAGER_ORIGIN ||
               event.source !== packagerFrame.contentWindow ||
               !event.data ||
               !event.data.p4 ||
-              event.data.p4.type !== "ready-for-import" ||
-              !selectedFile ||
-              importing) {
+              event.data.p4.type !== "ready-for-import") {
             return;
           }
 
-          sendProject(event.source, event.origin);
+          if (parentOrigin && window.opener && !parentReadySent) {
+            window.opener.postMessage({p4: {type: "ready-for-import"}}, parentOrigin);
+            parentReadySent = true;
+            setStatus("Waiting for the editor to send its project...");
+          } else if (selectedFile && !importing) {
+            sendProject(event.source, event.origin);
+          }
         });
 
         var sendProject = function (target, origin) {
@@ -242,6 +360,10 @@
         packagerFrame.addEventListener("load", function () {
           frameReady = true;
         });
+
+        if (parentOrigin && window.opener) {
+          loadPackager();
+        }
       })();
     </script>
   </body>

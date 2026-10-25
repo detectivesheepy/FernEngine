@@ -2383,8 +2383,8 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 
 
-const PACKAGER_URL = 'https://turbowarp.org/Packager';
-const PACKAGER_ORIGIN = "https://scrooch-project.github.io";
+const PACKAGER_URL = 'https://lorenzo.nya.je/FernEngine/packager.html';
+const PACKAGER_ORIGIN = "https://lorenzo.nya.je";
 const readBlobAsArrayBuffer = blob => new Promise((resolve, reject) => {
   const fr = new FileReader();
   fr.onload = () => resolve(fr.result);
@@ -2406,7 +2406,7 @@ const PackagerIntegrationHOC = function PackagerIntegrationHOC(WrappedComponent)
     }
     handleClickPackager() {
       if (this.props.canOpenPackager) {
-        window.open("".concat(PACKAGER_URL, "/?import_from=").concat(location.origin));
+        window.open("".concat(PACKAGER_URL, "?import_from=").concat(encodeURIComponent(location.origin)));
       }
     }
     handleMessage(e) {
