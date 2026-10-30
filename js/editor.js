@@ -14,6 +14,7 @@ var GUI =
 /******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
 /******/ 				resolves.push(installedChunks[chunkId][0]);
 /******/ 			}
+
 /******/ 			installedChunks[chunkId] = 0;
 /******/ 		}
 /******/ 		for(moduleId in moreModules) {
@@ -1657,8 +1658,47 @@ class FeaturedProjects extends react__WEBPACK_IMPORTED_MODULE_2___default.a.Comp
     lodash_bindall__WEBPACK_IMPORTED_MODULE_0___default()(this, ['handleSelect', 'handleOpenProjects']);
     this.state = {
       opened: false,
-      transition: true
+      transition: true,
+      latestCommit: null,
+      commitLoading: true,
+      commitError: false
     };
+  }
+  componentDidMount() {
+    this._mounted = true;
+    fetch('https://api.github.com/repos/detectivesheepy/FernEngine/commits?per_page=1&cacheBust='.concat(Date.now()), {
+      cache: 'no-store',
+      headers: {
+        Accept: 'application/vnd.github+json'
+      }
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error("GitHub API returned status ".concat(response.status));
+      }
+      return response.json();
+    }).then(commits => {
+      const latestCommit = Array.isArray(commits) ? commits[0] : null;
+      if (!latestCommit || typeof latestCommit.sha !== 'string' || !latestCommit.commit || typeof latestCommit.commit.message !== 'string' || !latestCommit.commit.author || typeof latestCommit.commit.author.date !== 'string') {
+        throw new Error('GitHub returned an invalid latest commit response.');
+      }
+      if (this._mounted) {
+        this.setState({
+          latestCommit,
+          commitLoading: false
+        });
+      }
+    }).catch(error => {
+      console.error('Failed to load the latest FernEngine commit from GitHub.', error);
+      if (this._mounted) {
+        this.setState({
+          commitLoading: false,
+          commitError: true
+        });
+      }
+    });
+  }
+  componentWillUnmount() {
+    this._mounted = false;
   }
   componentDidUpdate(prevProps) {
     if (this.props.projectId === '0' && prevProps.projectId === null) {
@@ -1676,6 +1716,77 @@ class FeaturedProjects extends react__WEBPACK_IMPORTED_MODULE_2___default.a.Comp
     this.setState({
       opened: true
     });
+  }
+  renderLatestCommit() {
+    const latestCommit = this.state.latestCommit;
+    const boxStyle = {
+      marginTop: 12,
+      padding: '10px 12px',
+      border: '1px solid rgba(0, 0, 0, 0.15)',
+      borderRadius: 6,
+      background: 'rgba(127, 127, 127, 0.08)',
+      color: 'inherit',
+      fontSize: 13,
+      textDecoration: 'none',
+      display: 'block'
+    };
+    const headerStyle = {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      marginBottom: 6
+    };
+    const avatarStyle = {
+      width: 28,
+      height: 28,
+      borderRadius: '50%'
+    };
+    const messageStyle = {
+      overflow: 'hidden',
+      margin: '4px 0',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
+    };
+    const dateStyle = {
+      fontSize: 12,
+      opacity: 0.75
+    };
+    if (this.state.commitLoading) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      style: boxStyle
+      }, "Latest update: Loading...");
+    }
+    if (this.state.commitError || !latestCommit) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("a", {
+      style: boxStyle,
+      href: "https://github.com/detectivesheepy/FernEngine/commits",
+      target: "_blank",
+      rel: "noopener noreferrer"
+      }, "Latest update: Couldn't load commit. View history on GitHub.");
+    }
+    const githubAuthor = latestCommit.author;
+    const authorName = githubAuthor && githubAuthor.login || latestCommit.commit.author.name;
+    const authorAvatar = githubAuthor && githubAuthor.avatar_url;
+    const commitMessage = latestCommit.commit.message.split('\n')[0];
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("a", {
+      style: boxStyle,
+      href: "https://github.com/detectivesheepy/FernEngine/commit/".concat(latestCommit.sha),
+      target: "_blank",
+      rel: "noopener noreferrer"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      style: headerStyle
+    }, authorAvatar ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("img", {
+      src: authorAvatar,
+      alt: "",
+      style: avatarStyle
+    }) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", null, "Latest update:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("em", null, authorName))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("p", {
+      style: messageStyle,
+      title: commitMessage
+    }, commitMessage), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("div", {
+      style: dateStyle
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement("time", {
+      dateTime: latestCommit.commit.author.date
+    }, new Date(latestCommit.commit.author.date).toLocaleString())));
   }
   render() {
     const opened = this.state.opened;
@@ -1707,7 +1818,7 @@ class FeaturedProjects extends react__WEBPACK_IMPORTED_MODULE_2___default.a.Comp
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(react_intl__WEBPACK_IMPORTED_MODULE_3__["FormattedMessage"], {
       defaultMessage: "View studio on Scratch.",
       id: "tw.featuredProjectsStudio"
-    }))));
+    }))), this.renderLatestCommit());
   }
 }
 FeaturedProjects.propTypes = {
