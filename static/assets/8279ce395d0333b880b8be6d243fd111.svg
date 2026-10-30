@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
-    <title>icon--faster</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="faster" fill="#CF63CF">
-            <path d="M10.4030168,15.3305205 C9.63631818,15.809043 8.67894496,15.215015 8.67894496,14.2895965 L8.67894496,12.305378 L3.72407184,15.3305205 C2.95737322,15.809043 2,15.215015 2,14.2895965 L2,5.71881797 C2,4.77964875 2.95737322,4.19937144 3.72407184,4.66276825 L8.67894496,7.68791067 L8.67894496,5.71881797 C8.67894496,4.77964875 9.63631818,4.19937144 10.4030168,4.66276825 L17.4259761,8.94746996 C18.1913413,9.41086678 18.1913413,10.5824219 17.4259761,11.0609445 L10.4030168,15.3305205 Z"></path>
-        </g>
-    </g>
-</svg>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="11" viewBox="0,0,16,11"><g transform="translate(-232,-174.5)"><g data-paper-data="{&quot;isPaintingLayer&quot;:true}" fill="#008000" fill-rule="evenodd" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" style="mix-blend-mode: normal"><path d="M240.40302,185.33052c-0.7667,0.47852 -1.72407,-0.11551 -1.72407,-1.04092v-1.98422l-4.95487,3.02514c-0.7667,0.47852 -1.72407,-0.11551 -1.72407,-1.04092v-8.57078c0,-0.93917 0.95737,-1.51945 1.72407,-1.05605l4.95487,3.02514v-1.96909c0,-0.93917 0.95737,-1.51945 1.72407,-1.05605l7.02296,4.2847c0.76537,0.4634 0.76537,1.63495 0,2.11347z"/></g></g></svg><!--rotationCenter:8:5.4999999993347615-->
