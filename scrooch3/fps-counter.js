@@ -17,15 +17,27 @@
 
   document.body.appendChild(counter);
 
-  let frameCount = 0;
+  let runtime = null;
+  let stepCount = 0;
   let lastUpdate = performance.now();
 
   function countFrame(now) {
-    frameCount += 1;
+    const nextRuntime = window.vm && window.vm.runtime;
+    if (nextRuntime && nextRuntime !== runtime && typeof nextRuntime._step === 'function') {
+      const originalStep = nextRuntime._step;
+      nextRuntime._step = function () {
+        stepCount += 1;
+        return originalStep.apply(this, arguments);
+      };
+      runtime = nextRuntime;
+      lastUpdate = now;
+      counter.textContent = 'FPS: --';
+    }
+
     if (now - lastUpdate >= 500) {
-      const fps = Math.round(frameCount * 1000 / (now - lastUpdate));
+      const fps = Math.round(stepCount * 1000 / (now - lastUpdate));
       counter.textContent = `FPS: ${fps}`;
-      frameCount = 0;
+      stepCount = 0;
       lastUpdate = now;
     }
     requestAnimationFrame(countFrame);
