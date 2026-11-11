@@ -10600,21 +10600,32 @@ class MenuBar extends react__WEBPACK_IMPORTED_MODULE_7___default.a.Component {
         this.props.onRequestCloseFile();
         const popup = window.open('', '_blank');
         if (!popup) return;
-        this.props.vm.saveProjectSb3().then(blob => {
+        popup.document.title = 'Opening BetterStages';
+        popup.document.body.textContent = 'Preparing project for BetterStages...';
+        const showError = error => {
+          console.error('Failed to open project in BetterStages.', error);
+          if (!popup.closed) {
+            popup.document.title = 'Could not open BetterStages';
+            popup.document.body.textContent = 'Could not prepare this project for BetterStages. Check the browser console for details.';
+          }
+        };
+        Promise.resolve().then(() => this.props.vm.saveProjectSb3()).then(blob => new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = () => {
-            popup.opener = null;
-            popup.location.href = "https://opencat-scratch.github.io/betterstages/?hash=".concat(encodeURIComponent(reader.result));
+            if (typeof reader.result !== 'string') {
+              reject(new Error('Project export did not produce a data URI.'));
+              return;
+            }
+            resolve(reader.result);
           };
           reader.onerror = () => {
-            popup.close();
-            console.error(reader.error);
+            reject(reader.error || new Error('Failed to read the exported project.'));
           };
           reader.readAsDataURL(blob);
-        }, error => {
-          popup.close();
-          console.error(error);
-        });
+        })).then(dataUri => {
+          popup.opener = null;
+          popup.location.replace("https://opencat-scratch.github.io/betterstages/?hash=".concat(dataUri.replace(/\+/g, '%2B')));
+        }).catch(showError);
       }
     }, "Open in BetterStages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_containers_sb3_downloader_jsx__WEBPACK_IMPORTED_MODULE_21__["default"], null, (_className, downloadProject, extended) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_7___default.a.Fragment, null, extended.available && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_7___default.a.Fragment, null, extended.name !== null && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_menu_menu_jsx__WEBPACK_IMPORTED_MODULE_18__["MenuItem"], {
       onClick: this.getSaveToComputerHandler(extended.saveToLastFile)
