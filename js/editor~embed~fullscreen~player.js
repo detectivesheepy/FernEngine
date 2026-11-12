@@ -10600,10 +10600,14 @@ class MenuBar extends react__WEBPACK_IMPORTED_MODULE_7___default.a.Component {
         this.props.onRequestCloseFile();
         const popup = window.open('', '_blank');
         if (!popup) return;
-        popup.opener = null;
-        popup.location.href = 'https://opencat-scratch.github.io/betterstages/';
+        popup.document.title = 'Opening BetterStages';
+        popup.document.body.textContent = 'Preparing project for BetterStages...';
         const showError = error => {
           console.error('Failed to open project in BetterStages.', error);
+          if (!popup.closed) {
+            popup.document.title = 'Could not open BetterStages';
+            popup.document.body.textContent = "Could not prepare this project for BetterStages. Check the browser console for details.";
+          }
         };
         Promise.resolve().then(() => this.props.vm.saveProjectSb3()).then(blob => new Promise((resolve, reject) => {
           const reader = new FileReader();
@@ -10620,6 +10624,7 @@ class MenuBar extends react__WEBPACK_IMPORTED_MODULE_7___default.a.Component {
           reader.readAsDataURL(blob);
         })).then(dataUri => {
           if (popup.closed) return;
+          popup.opener = null;
           popup.location.href = "https://opencat-scratch.github.io/betterstages/?hash=".concat(dataUri.replace(/\+/g, '%2B'));
         }).catch(showError);
       }
