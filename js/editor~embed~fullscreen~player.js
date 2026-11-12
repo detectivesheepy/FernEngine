@@ -10624,8 +10624,10 @@ class MenuBar extends react__WEBPACK_IMPORTED_MODULE_7___default.a.Component {
           reader.readAsDataURL(blob);
         })).then(dataUri => {
           if (popup.closed) return;
+          const betterStagesUrl = new URL('https://opencat-scratch.github.io/betterstages/');
+          betterStagesUrl.searchParams.set('hash', dataUri);
+          popup.location.href = betterStagesUrl.href;
           popup.opener = null;
-          popup.location.href = "https://opencat-scratch.github.io/betterstages/?hash=".concat(dataUri.replace(/\+/g, '%2B'));
         }).catch(showError);
       }
     }, "Open in BetterStages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_containers_sb3_downloader_jsx__WEBPACK_IMPORTED_MODULE_21__["default"], null, (_className, downloadProject, extended) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_7___default.a.Fragment, null, extended.available && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_7___default.a.Fragment, null, extended.name !== null && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_menu_menu_jsx__WEBPACK_IMPORTED_MODULE_18__["MenuItem"], {
